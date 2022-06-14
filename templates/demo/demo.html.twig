@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        console.log("Hello world");
+    </script>
+{% endblock %}
+
+{% block body %}
+    <h1>This is demo page</h1>
+{% endblock %}

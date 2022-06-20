@@ -2,13 +2,172 @@
 
 {% block title %}Hello MainController!{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+{{ parent() }}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+.ql-toolbar.ql-snow {
+    border-top: 2px solid #EAEAEA !important;
+    border-left: 2px solid #EAEAEA !important;
+    border-right: 2px solid #EAEAEA !important;
+    border-bottom: 0px !important;
+}
+
+.ql-container.ql-snow {
+    border: 2px solid #EAEAEA !important;
+}
+
+.ql-snow.ql-toolbar button {
+    border-left: 2px solid #EAEAEA !important;
+    padding: 5 15px;
+}
+
 </style>
 
-<div class="example-wrapper">
-    <h1>Create Question ✅</h1>
+{% endblock %}
+
+{% block body %}
+{# Navbar #}
+
+<div class="navWrapper flex justify-between px-[90px] py-[23px] items-center border-b-[1px] mb-[40px]">
+    <div class="navTitle font-nunito">
+        <h1><span class="font-[400]">Forum</span><span class="font-[800]">Gaming</span></h1>
+    </div>
+    <div class="navItems flex space-x-[80px] font-roboto font-[900] text-grayTwo  ">
+        <a href="#">Buat Pertanyaan</a>
+        <a href="#">Halaman Pencarian</a>
+        <a href="#">Tentang Kami</a>
+    </div>
+    <div class="navProf flex font-roboto font-[900] text-[12px] items-center">
+        <div class="belNav relative mr-[30px]">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="absolute w-4 h-4 bg-blue -top-2 right-1 border-2 border-backgroundTwo rounded-full"></div>
+        </div>
+        <div class="profilePic w-[50px] h-[50px] object-cover rounded-full relative">
+            <img class="w-full h-full object-cover rounded-full" src="https://i.ytimg.com/vi/ePTg3qu8cow/maxresdefault.jpg" alt="">
+            <div class="notifNav absolute top-0 -right-2 px-2 py-1 bg-grayTwo text-backgroundTwo rounded-full border-2 border-backgroundTwo">
+                <h1 class="text-[9px]">0</h1>
+            </div>
+        </div>
+    </div>
 </div>
+
+{# End Navbar #}
+
+{# Main Content #}
+
+<div class="mainContent grid grid-rows-1 grid-cols-12 mb-10">
+    <div class="col-start-2 col-span-3 px-[41px]">
+        <div class="sideWrap border rounded-md px-[20px] py-[30px]">
+            <div class="sideTitle flex items-center pb-[10px] border-b">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 1.5L11.3175 6.195L16.5 6.9525L12.75 10.605L13.635 15.765L9 13.3275L4.365 15.765L5.25 10.605L1.5 6.9525L6.6825 6.195L9 1.5Z" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1 class="ml-[6px] text-[15px] font-roboto font-[400]">Must-read posts</h1>
+            </div>
+            <div class="sideLink text-[11px] font-roboto font-[400] text-blue mt-[10px] mb-[30px]">
+                <ul class="list-disc pl-[20px]">
+                    <li class="mt-[10px]">
+                        <a href="#" class="hover:underline">
+                            Please read rules before you start working on a platform
+                        </a>
+                    </li>
+                    <li class="mt-[10px]">
+                        <a href="#" class="hover:underline">
+                            Vision & Strategy of Alemhelp
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sideTitle flex items-center pb-[10px] border-b">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 9.74997C7.82209 10.1806 8.23302 10.5369 8.70491 10.7947C9.17681 11.0525 9.69863 11.2058 10.235 11.2442C10.7713 11.2826 11.3097 11.2053 11.8135 11.0173C12.3173 10.8294 12.7748 10.5353 13.155 10.155L15.405 7.90497C16.0881 7.19772 16.4661 6.25046 16.4575 5.26722C16.449 4.28398 16.0546 3.34344 15.3593 2.64815C14.664 1.95287 13.7235 1.55849 12.7403 1.54995C11.757 1.5414 10.8098 1.91938 10.1025 2.60247L8.8125 3.88497" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.4999 8.24992C10.1778 7.81933 9.76689 7.46304 9.29499 7.20522C8.8231 6.9474 8.30128 6.79409 7.76492 6.75567C7.22856 6.71726 6.69022 6.79465 6.1864 6.98259C5.68258 7.17053 5.22507 7.46462 4.84491 7.84492L2.59491 10.0949C1.91181 10.8022 1.53383 11.7494 1.54238 12.7327C1.55092 13.7159 1.94531 14.6565 2.64059 15.3517C3.33587 16.047 4.27641 16.4414 5.25965 16.45C6.24289 16.4585 7.19015 16.0805 7.89741 15.3974L9.17991 14.1149" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1 class="ml-[6px] text-[15px] font-roboto font-[400]">Featured links</h1>
+            </div>
+            <div class="sideLink text-[11px] font-roboto font-[400] text-blue mt-[10px] mb-[30px]">
+                <ul class="list-disc pl-[20px]">
+                    <li class="mt-[10px]">
+                        <a href="#" class="hover:underline">
+                            Alemhelp source-code on GitHub
+                        </a>
+                    </li>
+                    <li class="mt-[10px]">
+                        <a href="#" class="hover:underline">
+                            Golang best-practices
+                        </a>
+                    </li>
+                    <li class="mt-[10px]">
+                        <a href="#" class="hover:underline">
+                            Alem.School dashboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-span-6 p-[30px] border rounded-md h-full">
+        <input type="text" id="text" class="bg-backgroundTwo border-2 focus:outline-none focus:border-sky-500 text-gray-900 text-sm rounded-md block w-full pl-[10px] py-[10px] mb-4" placeholder="Type catching attention title">
+        <div id="editor" class="h-[300px] rounded-bl-md rounded-br-md">
+            {# <p>Deskripsikan <strong>pertanyaan anda</strong></p> #}
+            <p>Type your question</p>
+        </div>
+        <div class="tags">
+        <input type="text" id="text" class="bg-backgroundTwo border-2 focus:outline-none focus:border-sky-500 text-gray-900 text-sm rounded-md block w-full pl-[10px] py-[10px] my-4" placeholder="Tags">
+        </div>
+        <div class="butBottom flex justify-between">
+            <a href="#">
+                <div class="butImage flex bg-blue text-backgroundTwo py-[8px] px-[20px] rounded-md items-center">
+                <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.2917 2.125H2.70833C2.11002 2.125 1.625 2.61002 1.625 3.20833V10.7917C1.625 11.39 2.11002 11.875 2.70833 11.875H10.2917C10.89 11.875 11.375 11.39 11.375 10.7917V3.20833C11.375 2.61002 10.89 2.125 10.2917 2.125Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.60425 5.91663C5.05298 5.91663 5.41675 5.55286 5.41675 5.10413C5.41675 4.65539 5.05298 4.29163 4.60425 4.29163C4.15552 4.29163 3.79175 4.65539 3.79175 5.10413C3.79175 5.55286 4.15552 5.91663 4.60425 5.91663Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.3749 8.62496L8.66659 5.91663L2.70825 11.875" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1 class="ml-[12px] font-roboto font-[900] text-[12px]">Add Image</h1>
+            </div>
+            </a>
+            <div class="butRight flex">
+                <a href="#">
+                    <div class="butDraft bg-grayOne text-grayTwo py-[8px] px-[20px] rounded-md items-center">
+                        <h1 class="font-roboto font-[400] text-[12px] capitalize tracking-wide">save as draft</h1>
+                    </div>
+                </a>
+                <a href="#" class="ml-[20px]">
+                <div class="butImage flex bg-primary text-backgroundTwo py-[8px] px-[20px] rounded-md items-center">
+                    <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.9166 1.58337L5.95825 7.54171" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.9166 1.58337L8.12492 12.4167L5.95825 7.54171L1.08325 5.37504L11.9166 1.58337Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h1 class="ml-[12px] font-roboto font-[900] text-[12px]">Publish</h1>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# End Main Content #}
+
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+  var quill = new Quill('#editor', {
+    modules: {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'], ['link'], [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['code-block'],
+    ]
+  },
+    theme: 'snow'
+  });
+</script>
+
 {% endblock %}

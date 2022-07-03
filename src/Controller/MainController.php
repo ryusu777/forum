@@ -11,13 +11,13 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('main/home.html.twig');
+        return $this->render('main/home.html.twig', ['isAuth' => false]);
     }
 
     #[Route('/create', name: 'app_create')]
     public function createQuestion(): Response
     {
-        return $this->render('main/createQuestion.html.twig');
+        return $this->render('main/createQuestion.html.twig', ['isAuth' => true]);
     }
 
     #[Route('/search-result', name: 'app_search_result')]

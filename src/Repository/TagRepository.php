@@ -63,4 +63,17 @@ class TagRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findBySearch($value)
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+                        ->where('p.namaTag LIKE :value')
+                        ->setParameters([
+                            'value' => substr($value['cari'], 1)
+                        ])
+                        ->getQuery()
+                        ->getResult();
+
+    return $queryBuilder;
+    }
 }

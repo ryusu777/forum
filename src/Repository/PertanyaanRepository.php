@@ -64,4 +64,18 @@ class PertanyaanRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findBySearch($value)
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+                        ->where('p.judulTanya LIKE :value')
+                        ->orWhere('p.tanya LIKE :value')
+                        ->setParameters([
+                            'value' => '%' . $value['cari'] . '%'
+                        ])
+                        ->getQuery()
+                        ->getResult();
+
+    return $queryBuilder;
+    }
 }

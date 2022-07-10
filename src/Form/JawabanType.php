@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Jawaban;
-use App\Entity\Pertanyaan;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,13 +13,7 @@ class JawabanType extends AbstractType
     {
         $builder
             ->add('userName')
-            ->add('jawab')
-            // ->add('createdAt')
-            // ->add('updatedAt')
-            // ->add('vote')
-            // ->add('approveStatus')
-            // ->add($pertanyaan->getIdPertanyaan())
-        ;
+            ->add('jawab');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

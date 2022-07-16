@@ -5,33 +5,32 @@
 {% block title %}Search Result Page!{% endblock %}
 
 {% block body %}
-    <div class="h-16 border-b-[1.5px] grid grid-cols-12">
-        <div class="my-4 mx-16 text-lg col-start-1 col-span-3">
+    <div class="h-18 border-b-[1.5px] grid grid-cols-12">
+        <div class="my-6 mx-16 text-lg col-start-1 col-span-3">
             Forum<b>Geming</b>
         </div>
         <div class="my-4 col-start-9 col-span-2">
             <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg w-44 h-10">
-                <span class="material-symbols-outlined text-base">
+                <span class="material-symbols-outlined text-xl">
                     add_circle
                 </span>
-                Buat Pertanyaan
+                <a href="{{ path('app_create') }}">Buat Pertanyaan</a>
             </button>
         </div>
-        <div class="my-4 mx-8 col-start-11 col-span-1">
-            <span class="material-symbols-outlined text-xl">
+        <div class="my-6 mx-8 col-start-11 col-span-1">
+            <span class="material-symbols-outlined text-xxl">
                 notifications
             </span>
         </div>
     </div>
-    <h1 class="text-3xl font-bold my-6 mx-3">Pertanyaan index</h1>
-    <a href="{{ path('app_create') }}" class="font-bold mx-4">Create new</a>
-    <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 py-0.5">
+    {# <a href="{{ path('app_create') }}" class="font-bold mx-6">Create new</a> #}
+    <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 py-0.5 mt-6 ml-[280px]">
         <span class="material-symbols-outlined text-base">
             schedule
         </span>
         New
     </button>
-    <button class="bg-gray-200 text-slate-500 hover:bg-gray-300 rounded-full px-6 py-0.5">
+    <button class="bg-gray-200 text-slate-500 hover:bg-gray-300 rounded-full px-6 py-0.5 mt-6">
         <span class="material-symbols-outlined text-base">
             north_east
         </span>

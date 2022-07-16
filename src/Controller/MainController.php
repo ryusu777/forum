@@ -4,40 +4,26 @@ namespace App\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Jawaban;
+use App\Entity\TagPertanyaan;
 use App\Entity\Pertanyaan;
 use App\Form\PertanyaanType;
 use App\Form\JawabanType;
 use App\Repository\PertanyaanRepository;
 use App\Repository\JawabanRepository;
 use App\Repository\TagPertanyaanRepository;
+use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ManagerRegistry $doctrine, PertanyaanRepository $pertanyaanRepository): Response
+    public function index(): Response
     {
-        $results = array();
-        $jawaban = $doctrine->getRepository(Jawaban::class)->findAll();
-        $pertanyaan = $pertanyaanRepository->findAll();
-        
-        for ($i = 0; $i < count($pertanyaan); $i++){
-            $answerCounts = 0;
-            for($j = 0; $j < count($jawaban); $j++){
-                if($pertanyaan[$i]->getIdPertanyaan() == $jawaban[$j]->getPertanyaan()->getIdPertanyaan()){
-                    $answerCounts += 1;
-                }
-            }
-            array_push($results, $answerCounts);
-        }
-        $results = array_map(null, $pertanyaan, $results);
-        $results = array_reverse($results);
-        return $this->render('main/home.html.twig', [
-            'items' => $results
-        ]);
+        return $this->render('main/home.html.twig');
     }
 
     #[Route('/create', name: 'app_create')]
@@ -52,7 +38,7 @@ class MainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pertanyaanRepository->add($pertanyaan, true);
 
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_search', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('main/createQuestion.html.twig', [
@@ -73,7 +59,7 @@ class MainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pertanyaanRepository->add($pertanyaan, true);
 
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_search', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('main/createQuestion.html.twig', [
@@ -89,46 +75,7 @@ class MainController extends AbstractController
             $pertanyaanRepository->remove($pertanyaan, true);
         }
 
-        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/search/{search}', name: 'app_search', methods: ['GET'])]
-    public function display($search, ManagerRegistry $doctrine, PertanyaanRepository $pertanyaanRepository): Response
-    {
-        $results = array();
-        $jawaban = $doctrine->getRepository(Jawaban::class)->findAll();
-        $pertanyaan = $pertanyaanRepository->findAll();
-        
-        for ($i = 0; $i < count($pertanyaan); $i++){
-            $answerCounts = 0;
-            for($j = 0; $j < count($jawaban); $j++){
-                if($pertanyaan[$i]->getIdPertanyaan() == $jawaban[$j]->getPertanyaan()->getIdPertanyaan()){
-                    $answerCounts += 1;
-                }
-            }
-            array_push($results, $answerCounts);
-        }
-        $results = array_map(null, $pertanyaan, $results);
-
-        if ($search == 'new'){
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        } else if ($search == 'top'){
-            array_multisort(array_map(function($element) {
-                return $element[1];
-            }, $results), SORT_DESC, $results);
-            $display = $results;
-        }
-
-        dump($display);
-        return $this->render('main/home.html.twig', [
-            'items' => $display,
-        ]);
-    }
-
-    #[Route('/search-result', name: 'app_search_result')]
-    public function searchResult(): Response
-    {
-        return $this->render('main/searchResult.html.twig');
+        return $this->redirectToRoute('app_search', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/details/{idPertanyaan}', name: 'app_details')]
@@ -171,7 +118,7 @@ class MainController extends AbstractController
         return $this->redirectToRoute('app_details', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/details/{idPertanyaan}/{idJawaban}', name: 'app_jawaban_delete', methods: ['GET', 'POST'])]
+    #[Route('/details/{idPertanyaan}/{idJawaban}/delete', name: 'app_jawaban_delete', methods: ['GET', 'POST'])]
     public function jawabanDelete(Jawaban $jawaban, JawabanRepository $jawabanRepository, Pertanyaan $pertanyaan): Response
     {
         $jawabanRepository->remove($jawaban, true);
@@ -224,5 +171,117 @@ class MainController extends AbstractController
             'jawaban' => $jawaban,
             'form' => $form,
         ]);
+    }
+
+    
+    #[Route('/search/{search}', name: 'app_display', methods: ['GET'])]
+    public function display($search, ManagerRegistry $doctrine, PertanyaanRepository $pertanyaanRepository): Response
+    {
+        $searchResults = array();
+        $jawaban = $doctrine->getRepository(Jawaban::class)->findAll();
+        $pertanyaan = $pertanyaanRepository->findAll();
+        
+        for ($i = 0; $i < count($pertanyaan); $i++){
+            $answerCounts = 0;
+            for($j = 0; $j < count($jawaban); $j++){
+                if($pertanyaan[$i]->getIdPertanyaan() == $jawaban[$j]->getPertanyaan()->getIdPertanyaan()){
+                    $answerCounts += 1;
+                }
+            }
+            array_push($searchResults, $answerCounts);
+        }
+        $searchResults = array_map(null, $pertanyaan, $searchResults);
+
+        if ($search == 'new'){
+            return $this->redirectToRoute('app_search', [], Response::HTTP_SEE_OTHER);
+        } else if ($search == 'top'){
+            array_multisort(array_map(function($element) {
+                return $element[1];
+            }, $searchResults), SORT_DESC, $searchResults);
+            $display = $searchResults;
+        }
+
+        return $this->render('main/searchResult.html.twig', [
+            'results' => $display,
+        ]);
+    }
+    
+    #[Route('/search_result', name: 'app_search_result', methods: ['GET', 'POST'])]
+    public function searchBar(Request $request, ManagerRegistry $doctrine,
+                            PertanyaanRepository $pertanyaanRepository, TagRepository $tagRepository): Response
+    {
+        $form = $this->createFormBuilder(null)
+            ->add('cari', TextType::class, [ 
+            'attr' => [
+                'placeholder' => 'Apa pertanyaanmu?'
+            ],
+            'label' => false
+        ])->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $value = $form->getData();
+            $searchResults = array();
+            $jawaban = $doctrine->getRepository(Jawaban::class)->findAll();
+            $tagPertanyaan = $doctrine->getRepository(TagPertanyaan::class)->findAll();
+
+            if(substr($value['cari'], 0, 1) == '#'){
+                $searchs = array();
+                $searchTag = $tagRepository->findBySearch($value);
+                for ($i = 0; $i < count($searchTag); $i++){
+                    for($j = 0; $j < count($tagPertanyaan); $j++){
+                        if($searchTag[$i]->getIdTag() == $tagPertanyaan[$j]->getTag()->getIdTag()){
+                            $search = $pertanyaanRepository->findBy(array('idPertanyaan' => $tagPertanyaan[$j]->getPertanyaan()->getIdPertanyaan()));
+                            array_push($searchs, $search[0]);
+                            dump($searchs);
+                        }
+                    }
+                }
+            } else {
+                $searchs = $pertanyaanRepository->findBySearch($value);
+            }
+
+            for ($i = 0; $i < count($searchs); $i++){
+                $answerCounts = 0;
+                for($j = 0; $j < count($jawaban); $j++){
+                    if($searchs[$i]->getIdPertanyaan() == $jawaban[$j]->getPertanyaan()->getIdPertanyaan()){
+                        $answerCounts += 1;
+                    }
+                }
+                array_push($searchResults, $answerCounts);
+            }
+
+            $searchResults = array_map(null, $searchs, $searchResults);
+            $searchResults = array_reverse($searchResults);
+            return $this->render('main/searchResult.html.twig', [
+                'results' => $searchResults
+            ]);
+        }
+
+        return $this->renderForm('main/question/searchBar.html.twig', [
+            'form' =>$form,
+        ]);
+    }
+
+    #[Route('/search', name: 'app_search', methods: ['GET', 'POST'])]
+    public function search(ManagerRegistry $doctrine, PertanyaanRepository $pertanyaanRepository): Response
+    {
+        $searchResults = array();
+        $jawaban = $doctrine->getRepository(Jawaban::class)->findAll();
+        $pertanyaan = $pertanyaanRepository->findAll();
+        
+        for ($i = 0; $i < count($pertanyaan); $i++){
+            $answerCounts = 0;
+            for($j = 0; $j < count($jawaban); $j++){
+                if($pertanyaan[$i]->getIdPertanyaan() == $jawaban[$j]->getPertanyaan()->getIdPertanyaan()){
+                    $answerCounts += 1;
+                }
+            }
+            array_push($searchResults, $answerCounts);
+        }
+        $searchResults = array_map(null, $pertanyaan, $searchResults);
+        $searchResults = array_reverse($searchResults);
+        
+        return $this->render('main/searchResult.html.twig', ['results' => $searchResults]);
     }
 }

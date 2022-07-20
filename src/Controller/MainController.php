@@ -23,7 +23,7 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('main/home.html.twig');
+        return $this->render('main/home.html.twig', ['isAuth' => false]);
     }
 
     #[Route('/create', name: 'app_create')]

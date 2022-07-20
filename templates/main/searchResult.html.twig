@@ -9,33 +9,21 @@
         <div class="my-6 mx-16 text-lg col-start-1 col-span-3">
             Forum<b>Geming</b>
         </div>
-        <div class="my-4 col-start-9 col-span-2">
-            <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg w-44 h-10">
+        <div class="my-4 col-start-9 col-span-2 flex justify-center">
+            <button class="bg-sky-500 hover:bg-sky-600 text-white rounded-lg w-44 h-10 flex items-center justify-center space-x-2">
                 <span class="material-symbols-outlined text-xl">
                     add_circle
                 </span>
                 <a href="{{ path('app_create') }}">Buat Pertanyaan</a>
             </button>
         </div>
-        <div class="my-6 mx-8 col-start-11 col-span-1">
+        <div class="my-6 mr-8 col-start-11 col-span-1 flex justify-center">
             <span class="material-symbols-outlined text-xxl">
                 notifications
             </span>
         </div>
     </div>
     {# <a href="{{ path('app_create') }}" class="font-bold mx-6">Create new</a> #}
-    <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 py-0.5 mt-6 ml-[280px]">
-        <span class="material-symbols-outlined text-base">
-            schedule
-        </span>
-        New
-    </button>
-    <button class="bg-gray-200 text-slate-500 hover:bg-gray-300 rounded-full px-6 py-0.5 mt-6">
-        <span class="material-symbols-outlined text-base">
-            north_east
-        </span>
-        Top
-    </button>
 
     <div class="grid grid-cols-5 my-2 mx-3">
         <div class="col-start-1 col-span-1 bg-white border-2 border-gray-200 my-2 mx-3 rounded-lg shadow-lg shadow-gray">
@@ -82,6 +70,18 @@
         </div>
         {# {{ parent() }} #}
         <div class="col-start-2 col-span-4">
+            <button class="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6 py-0.5 mx-3 my-2">
+                <span class="material-symbols-outlined text-base">
+                    schedule
+                </span>
+                New
+            </button>
+            <button class="bg-gray-200 text-slate-500 hover:bg-gray-300 rounded-full px-6 py-0.5 my-2">
+                <span class="material-symbols-outlined text-base">
+                    north_east
+                </span>
+                Top
+            </button>
             {% for result in results %}
                 <div class="bg-white border-2 border-gray-200 my-2 mx-3 rounded-lg shadow-lg shadow-gray grid grid-cols-2">
                     {# <button onclick="myFunction()" class="col-end-7 col-span-2 row-span-3 my-2 mx-3 dropbtn">
@@ -111,7 +111,7 @@
                         {{ result[0].tanya }}</br>
                     </div>
                     <div class="col-start-1 col-span-7 my-3 mx-3"> 
-                        {{ result[1] }}</br>
+                        Answers count: {{ result[1] }}</br>
                     </div>
                 </div>
             {% else %}

@@ -9,6 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Question Details✅</h1>
+    <h1>{{ pertanyaan.judulTanya }}</h1>
+    <p>{{ pertanyaan.tanya }}</p>
+    <ol>
+    {% for namaTag in namaTags %}
+        <li>{{ namaTag }}</li>
+    {% endfor %}
+    </ol>
 </div>
 {% endblock %}

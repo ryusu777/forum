@@ -88,15 +88,35 @@
         </div>
     </div>
     <div class="col-span-6 p-[30px] border rounded-md h-full">
+        {{ form_start(form) }}
+        {{ form_widget(form.userName, {
+            'attr': {
+                'class': "bg-backgroundTwo border-2 focus:outline-none focus:border-sky-500 text-gray-900 text-sm rounded-md block w-full pl-[10px] py-[10px] mb-4",
+                'placeholder': 'Type your name'
+            }
+        }) }}
+        {{ form_widget(form.judulTanya, {
+            'attr': {
+                'class': "bg-backgroundTwo border-2 focus:outline-none focus:border-sky-500 text-gray-900 text-sm rounded-md block w-full pl-[10px] py-[10px] mb-4",
+                'placeholder': 'Type catching attention title'
+            }
+        }) }}
+        {{ form_widget(form.tanya, {
+            'attr': {
+                'class': "bg-backgroundTwo border-2 focus:outline-none focus:border-sky-500 text-gray-900 text-sm rounded-md block w-full pl-[10px] py-[10px] mb-4",
+                'placeholder': 'Type your question here'
+            }
+        }) }}
+        <button class="butImage flex bg-primary text-backgroundTwo py-[8px] px-[20px] rounded-md items-center" type="submit">
+            <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.9166 1.58337L5.95825 7.54171" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.9166 1.58337L8.12492 12.4167L5.95825 7.54171L1.08325 5.37504L11.9166 1.58337Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1 class="ml-[12px] font-roboto font-[900] text-[12px]" id="publish-btn">Publish</h1>
+        </button>
+        {{ form_end(form) }}
 
-        <input type="text" id="text" class="bg-backgroundTwo border-2 focus:outline-none focus:border-sky-500 text-gray-900 text-sm rounded-md block w-full pl-[10px] py-[10px] mb-4" placeholder="Type catching attention title">
-
-        <div id="editor" class="h-[300px] rounded-bl-md rounded-br-md">
-            {# <p>Deskripsikan <strong>pertanyaan anda</strong></p> #}
-            <p>Type your question</p>
-        </div>
-
-        <div class="tags">
+        {# <div class="tags">
         <input type="text" id="text" class="bg-backgroundTwo border-2 focus:outline-none focus:border-sky-500 text-gray-900 text-sm rounded-md block w-full pl-[10px] py-[10px] my-4" placeholder="Tags">
         </div>
         <div class="butBottom flex justify-between">
@@ -106,7 +126,7 @@
                 <h1 class="ml-[12px] font-roboto font-[900] text-[12px]">Add Image</h1>
             </div>
             </a>
-            {# <input type="file" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"/> #}
+            <input type="file" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"/>
             <div class="butRight flex">
                 <a href="#">
                     <div class="butDraft bg-grayOne text-grayTwo py-[8px] px-[20px] rounded-md items-center">
@@ -114,17 +134,10 @@
                     </div>
                 </a>
                 <a href="#" class="ml-[20px]">
-                <div class="butImage flex bg-primary text-backgroundTwo py-[8px] px-[20px] rounded-md items-center">
-                    <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.9166 1.58337L5.95825 7.54171" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.9166 1.58337L8.12492 12.4167L5.95825 7.54171L1.08325 5.37504L11.9166 1.58337Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <h1 class="ml-[12px] font-roboto font-[900] text-[12px]">Publish</h1>
-                </div>
                 </a>
             </div>
         </div>
-        
+         #}
     </div>
 </div>
 

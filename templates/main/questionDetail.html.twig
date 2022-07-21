@@ -1,20 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base-search-layout.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Search Result Page!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block content %}
+    <div class="flex space-x-3 items-center">
+        <div class="bg-[#333333] w-[40px] h-[40px] rounded-full">
 
-<div class="example-wrapper">
-    <h1>{{ pertanyaan.judulTanya }}</h1>
-    <p>{{ pertanyaan.tanya }}</p>
-    <ol>
-    {% for namaTag in namaTags %}
-        <li>{{ namaTag }}</li>
-    {% endfor %}
-    </ol>
-</div>
+        </div>
+        <div class="">
+            <h1 class="text-[13px] capitalize">@rijalgemink</h1>
+            <h1 class="text-[10px] text-[#808080]">12 November 1209</h1>
+        </div>
+    </div>
+    <div class="mt-[20px]">
+        <h1 class="font-bold text-[18px]">{{ pertanyaan.judulTanya }}</h1>
+        <p class="text-[14px]">{{ pertanyaan.tanya }}</p>
+    </div>
 {% endblock %}

@@ -43,9 +43,15 @@
         {% endblock %}
     </head>
     <body>
+        {% block navbar %}
+            {% if app.user %}
+                {% include 'components/navbar/autnavbar.html.twig' %}
+            {% else %}
+                {% include 'components/navbar/anonavbar.html.twig' %}
+            {% endif %}
+        {% endblock %}
+
         {% block body %}
-            {% include 'layout/side-content.html.twig' %}
-            {# <h1>ABCD</h1> #}
         {% endblock %}
     </body>
 </html>

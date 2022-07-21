@@ -26,7 +26,7 @@ class MainController extends AbstractController
         return $this->render('main/home.html.twig', ['isAuth' => false]);
     }
 
-    #[Route('/question/create', name: 'app_create', methods: ['GET', 'POST'])]
+    #[Route('/question/create', name: 'question_create', methods: ['GET', 'POST'])]
     public function createQuestion(Request $request, PertanyaanRepository $pertanyaanRepository): Response
     {
         date_default_timezone_set("Asia/Jakarta");
@@ -37,17 +37,16 @@ class MainController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $pertanyaanRepository->add($pertanyaan, true);
-            return $this->redirectToRoute('app_questions', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('questions', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('main/createQuestion.html.twig', [
             'pertanyaan' => $pertanyaan,
-            'form' => $form,
-            'isAuth' => false
+            'form' => $form
         ]);
     }
 
-    #[Route('/questions', name: 'app_questions', methods: ['GET', 'POST'])]
+    #[Route('/questions', name: 'questions', methods: ['GET', 'POST'])]
     public function search(ManagerRegistry $doctrine, PertanyaanRepository $pertanyaanRepository): Response
     {
         $searchResults = array();
@@ -70,7 +69,7 @@ class MainController extends AbstractController
         return $this->render('main/searchResult.html.twig', ['results' => $searchResults]);
     }
 
-    #[Route('/create/edit/{idPertanyaan}/', name: 'app_edit', methods: ['GET', 'POST'])]
+    #[Route('/question/edit/{idPertanyaan}/', name: 'question_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Pertanyaan $pertanyaan, PertanyaanRepository $pertanyaanRepository): Response
     {
         date_default_timezone_set("Asia/Jakarta");  
@@ -82,7 +81,7 @@ class MainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pertanyaanRepository->add($pertanyaan, true);
 
-            return $this->redirectToRoute('app_questions', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('questions', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('main/createQuestion.html.twig', [
@@ -91,17 +90,17 @@ class MainController extends AbstractController
         ]);
     }
 
-    #[Route('/details/{idPertanyaan}', name: 'app_delete', methods: ['POST'])]
+    #[Route('/question/{idPertanyaan}', name: 'question_delete', methods: ['POST'])]
     public function delete(Request $request, Pertanyaan $pertanyaan, PertanyaanRepository $pertanyaanRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$pertanyaan->getIdPertanyaan(), $request->request->get('_token'))) {
             $pertanyaanRepository->remove($pertanyaan, true);
         }
 
-        return $this->redirectToRoute('app_questions', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('questions', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/details/{idPertanyaan}', name: 'app_details')]
+    #[Route('/question/{idPertanyaan}', name: 'question_detail')]
     public function details(Pertanyaan $pertanyaan, JawabanRepository $jawabanRepository, TagPertanyaanRepository $tagPertanyaanRepository): Response
     {
         $tagPertanyaans = $tagPertanyaanRepository->findBy(array('pertanyaan' => $pertanyaan->getIdPertanyaan()));
@@ -117,17 +116,17 @@ class MainController extends AbstractController
         ]);
     }
 
-    #[Route('/details/{idPertanyaan}/{idJawaban}', name: 'app_jawaban_vote', methods: ['GET', 'POST'])]
+    #[Route('/details/{idPertanyaan}/{idJawaban}', name: 'answer_vote', methods: ['GET', 'POST'])]
     public function jawabanVote(Jawaban $jawaban, JawabanRepository $jawabanRepository, Pertanyaan $pertanyaan): Response
     {
         $jawaban->setVote($jawaban->getVote() + 1);
 
         $jawabanRepository->add($jawaban, true);
 
-        return $this->redirectToRoute('app_details', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('question_detail', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/details/{idPertanyaan}/{idJawaban}/approve', name: 'app_jawaban_approve', methods: ['GET', 'POST'])]
+    #[Route('/details/{idPertanyaan}/{idJawaban}/approve', name: 'answer_approve', methods: ['GET', 'POST'])]
     public function jawabanApprove(Jawaban $jawaban, JawabanRepository $jawabanRepository, Pertanyaan $pertanyaan): Response
     {
         if ($jawaban->getApproveStatus() == 1){
@@ -138,18 +137,18 @@ class MainController extends AbstractController
 
         $jawabanRepository->add($jawaban, true);
 
-        return $this->redirectToRoute('app_details', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('question_detail', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/details/{idPertanyaan}/{idJawaban}/delete', name: 'app_jawaban_delete', methods: ['GET', 'POST'])]
+    #[Route('/details/{idPertanyaan}/{idJawaban}/delete', name: 'answer_delete', methods: ['GET', 'POST'])]
     public function jawabanDelete(Jawaban $jawaban, JawabanRepository $jawabanRepository, Pertanyaan $pertanyaan): Response
     {
         $jawabanRepository->remove($jawaban, true);
 
-        return $this->redirectToRoute('app_details', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('question_detail', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/details/{idPertanyaan}/jawaban/new', name: 'app_jawaban_new', methods: ['GET', 'POST'])]
+    #[Route('/details/{idPertanyaan}/jawaban/new', name: 'answer_create', methods: ['GET', 'POST'])]
     public function jawabanNew(Pertanyaan $pertanyaan, Request $request, JawabanRepository $jawabanRepository): Response
     {
         date_default_timezone_set("Asia/Jakarta");
@@ -163,7 +162,7 @@ class MainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $jawabanRepository->add($jawaban, true);
 
-            return $this->redirectToRoute('app_details', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('question_detail', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('main/answer/new.html.twig', [
@@ -173,7 +172,7 @@ class MainController extends AbstractController
         ]);
     }
 
-    #[Route('/details/{idPertanyaan}/{idJawaban}/edit', name: 'app_jawaban_edit', methods: ['GET', 'POST'])]
+    #[Route('/details/{idPertanyaan}/{idJawaban}/edit', name: 'answer_edit', methods: ['GET', 'POST'])]
     public function jawabanEdit(Request $request, Jawaban $jawaban, JawabanRepository $jawabanRepository, Pertanyaan $pertanyaan): Response
     {
         date_default_timezone_set("Asia/Jakarta");
@@ -186,7 +185,7 @@ class MainController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $jawabanRepository->add($jawaban, true);
 
-            return $this->redirectToRoute('app_details', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('question_detail', ['idPertanyaan'=> $pertanyaan->getIdPertanyaan()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('main/answer/new.html.twig', [
@@ -195,9 +194,8 @@ class MainController extends AbstractController
             'form' => $form,
         ]);
     }
-
     
-    #[Route('/search/{search}', name: 'app_display', methods: ['GET'])]
+    #[Route('/search/{search}', name: 'question_display', methods: ['GET'])]
     public function display($search, ManagerRegistry $doctrine, PertanyaanRepository $pertanyaanRepository): Response
     {
         $searchResults = array();
@@ -216,7 +214,7 @@ class MainController extends AbstractController
         $searchResults = array_map(null, $pertanyaan, $searchResults);
 
         if ($search == 'new'){
-            return $this->redirectToRoute('app_questions', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('questions', [], Response::HTTP_SEE_OTHER);
         } else if ($search == 'top'){
             array_multisort(array_map(function($element) {
                 return $element[1];
@@ -229,11 +227,12 @@ class MainController extends AbstractController
         ]);
     }
     
-    #[Route('/search_result', name: 'app_questions_result', methods: ['GET', 'POST'])]
+    #[Route('/search_result', name: 'questions_result', methods: ['GET', 'POST'])]
     public function searchBar(Request $request, ManagerRegistry $doctrine,
                             PertanyaanRepository $pertanyaanRepository, TagRepository $tagRepository): Response
     {
         $form = $this->createFormBuilder(null)
+            ->setMethod('GET')
             ->add('cari', TextType::class, [ 
             'attr' => [
                 'placeholder' => 'Apa pertanyaanmu?'

@@ -1,123 +1,55 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base-search-layout.html.twig' %}
 
 {# {% extends '' %} #}
 
 {% block title %}Search Result Page!{% endblock %}
 
-{% block body %}
-    <div class="h-18 border-b-[1.5px] grid grid-cols-12">
-        <div class="my-6 mx-16 text-lg col-start-1 col-span-3">
-            Forum<b>Geming</b>
-        </div>
-        <div class="my-4 col-start-9 col-span-2 flex justify-center">
-            <button class="bg-sky-500 hover:bg-sky-600 text-white rounded-lg w-44 h-10 flex items-center justify-center space-x-2">
-                <span class="material-symbols-outlined text-xl">
-                    add_circle
+{% block content %}
+    <button class="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6 py-0.5 mx-3 my-2">
+        <span class="material-symbols-outlined text-base">
+            schedule
+        </span>
+        New
+    </button>
+    <button class="bg-gray-200 text-slate-500 hover:bg-gray-300 rounded-full px-6 py-0.5 my-2">
+        <span class="material-symbols-outlined text-base">
+            north_east
+        </span>
+        Top
+    </button>
+    {% for result in results %}
+        <div class="bg-white border-2 border-gray-200 my-2 mx-3 rounded-lg shadow-lg shadow-gray grid grid-cols-2">
+            {# <button onclick="myFunction()" class="col-end-7 col-span-2 row-span-3 my-2 mx-3 dropbtn">
+                <span class="material-symbols-outlined text-slate-500">
+                    more_vert
                 </span>
-                <a href="{{ path('app_create') }}">Buat Pertanyaan</a>
             </button>
-        </div>
-        <div class="my-6 mr-8 col-start-11 col-span-1 flex justify-center">
-            <span class="material-symbols-outlined text-xxl">
-                notifications
-            </span>
-        </div>
-    </div>
-    {# <a href="{{ path('app_create') }}" class="font-bold mx-6">Create new</a> #}
-
-    <div class="grid grid-cols-5 my-2 mx-3">
-        <div class="col-start-1 col-span-1 bg-white border-2 border-gray-200 my-2 mx-3 rounded-lg shadow-lg shadow-gray">
-            <div class="my-2 mx-3">
-                <div class="mt-5 pb-3 border-b-[1.5px]">
-                    <span class="material-symbols-outlined text-slate-500">
-                        grade
-                    </span>
-                    Must-read post
-                </div>
-                <div class=" my-2 mx-3 text-sky-500">
-                    <ul class="mx-3" style="list-style-type:disc">
-                        <li>
-                            <a href="" class="hover:underline">Pertanyaan 1</a>
-                        </li>
-                        <li>
-                            <a href="" class="hover:underline">Pertanyaan 2</a>
-                        </li>
-                        <li>
-                            <a href="" class="hover:underline">Pertanyaan 3</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="mt-8 pb-3 border-b-[1.5px]">
-                    <span class="material-symbols-outlined text-slate-500">
-                        link
-                    </span>
-                    Featured links
-                </div>
-                <div class="mt-2 mb-5 mx-3 text-sky-500">
-                    <ul class="mx-3" style="list-style-type:disc">
-                        <li>
-                            <a href="" class="hover:underline">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="" class="hover:underline">Link 2</a>
-                        </li>
-                        <li>
-                            <a href="" class="hover:underline">Link 3</a>
-                        </li>
-                    </ul>
-                </div>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="{{ path('app_pertanyaan_show', {'idPertanyaan': pertanyaan.idPertanyaan}) }}">show</a>
+                <a href="{{ path('app_pertanyaan_edit', {'idPertanyaan': pertanyaan.idPertanyaan}) }}">edit</a>
+            </div> #}
+            <div class="col-end-7 col-span-2 row-span-3 my-2 mx-3"> 
+                <a href="{{ path('question_detail', {'idPertanyaan': result[0].idPertanyaan}) }}">show</a>
+                <a href="{{ path('question_edit', {'idPertanyaan': result[0].idPertanyaan}) }}">edit</a>
+            </div>
+            <div class="col-start-1 col-span-2 mt-2 mx-3">
+                {{ result[0].userName }}
+            </div>
+            <div class="col-start-1 col-span-2 mx-3 text-slate-500 text-xs"> 
+                {{ result[0].createdAt ? result[0].createdAt|date('Y-m-d H:i:s') : '' }}
+                {{ result[0].updatedAt ? result[0].updatedAt|date('Y-m-d H:i:s') : '' }}</br>
+            </div>
+            <div class="col-start-1 col-span-7 mt-3 mx-3"> 
+                <b>{{ result[0].judulTanya }}</b></br>
+            </div>
+            <div class="col-start-1 col-span-7 mt-3 mb-4 mx-3"> 
+                {{ result[0].tanya }}</br>
+            </div>
+            <div class="col-start-1 col-span-7 my-3 mx-3"> 
+                Answers count: {{ result[1] }}</br>
             </div>
         </div>
-        {# {{ parent() }} #}
-        <div class="col-start-2 col-span-4">
-            <button class="bg-sky-500 hover:bg-sky-600 text-white rounded-full px-6 py-0.5 mx-3 my-2">
-                <span class="material-symbols-outlined text-base">
-                    schedule
-                </span>
-                New
-            </button>
-            <button class="bg-gray-200 text-slate-500 hover:bg-gray-300 rounded-full px-6 py-0.5 my-2">
-                <span class="material-symbols-outlined text-base">
-                    north_east
-                </span>
-                Top
-            </button>
-            {% for result in results %}
-                <div class="bg-white border-2 border-gray-200 my-2 mx-3 rounded-lg shadow-lg shadow-gray grid grid-cols-2">
-                    {# <button onclick="myFunction()" class="col-end-7 col-span-2 row-span-3 my-2 mx-3 dropbtn">
-                        <span class="material-symbols-outlined text-slate-500">
-                            more_vert
-                        </span>
-                    </button>
-                    <div id="myDropdown" class="dropdown-content">
-                        <a href="{{ path('app_pertanyaan_show', {'idPertanyaan': pertanyaan.idPertanyaan}) }}">show</a>
-                        <a href="{{ path('app_pertanyaan_edit', {'idPertanyaan': pertanyaan.idPertanyaan}) }}">edit</a>
-                    </div> #}
-                    <div class="col-end-7 col-span-2 row-span-3 my-2 mx-3"> 
-                        <a href="{{ path('app_details', {'idPertanyaan': result[0].idPertanyaan}) }}">show</a>
-                        <a href="{{ path('app_edit', {'idPertanyaan': result[0].idPertanyaan}) }}">edit</a>
-                    </div>
-                    <div class="col-start-1 col-span-2 mt-2 mx-3">
-                        {{ result[0].userName }}
-                    </div>
-                    <div class="col-start-1 col-span-2 mx-3 text-slate-500 text-xs"> 
-                        {{ result[0].createdAt ? result[0].createdAt|date('Y-m-d H:i:s') : '' }}
-                        {{ result[0].updatedAt ? result[0].updatedAt|date('Y-m-d H:i:s') : '' }}</br>
-                    </div>
-                    <div class="col-start-1 col-span-7 mt-3 mx-3"> 
-                        <b>{{ result[0].judulTanya }}</b></br>
-                    </div>
-                    <div class="col-start-1 col-span-7 mt-3 mb-4 mx-3"> 
-                        {{ result[0].tanya }}</br>
-                    </div>
-                    <div class="col-start-1 col-span-7 my-3 mx-3"> 
-                        Answers count: {{ result[1] }}</br>
-                    </div>
-                </div>
-            {% else %}
-                no records found
-            {% endfor %}
-        </div>
-    </div>
-
+    {% else %}
+        no records found
+    {% endfor %}
 {% endblock %}

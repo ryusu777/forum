@@ -3,28 +3,8 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-
-{# Navbar #}
-
-{% if isAuth %}
-    {% include ('components/navbar/autnavbar.html.twig') %}
-{% else %}
-    {% include 'components/navbar/anonavbar.html.twig' %}
-{% endif %}
-
-{# End Navbar #}
-
-
-{# Content #}
-
 <div class="mainContent flex justify-between px-[100px] mt-[86px] items-center">
-
     {% include 'components/leftfullcontent.html.twig' %}
     {% include 'components/rightlogo.html.twig' %}
-
 </div>
-
-{# End Content #}
-
-
 {% endblock %}

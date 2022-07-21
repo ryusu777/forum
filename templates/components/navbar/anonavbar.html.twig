@@ -1,16 +1,10 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-
-{# Navbar #}
-
 <div class="navWrapper flex justify-between px-[90px] py-[23px] items-center border-b-[1px] mb-[40px]">
     <div class="navTitle font-nunito">
         <h1><span class="font-[400]">Forum</span><span class="font-[800]">Gaming</span></h1>
     </div>
     <div class="navItems flex space-x-[80px] font-roboto font-[900] text-grayTwo  ">
-        <a href="{{ path('app_create') }}">Buat Pertanyaan</a>
-        <a href="{{ path('app_questions') }}">Halaman Pencarian</a>
+        <a href="{{ path('question_create') }}">Buat Pertanyaan</a>
+        <a href="{{ path('questions') }}">Halaman Pencarian</a>
         <a href="#">Tentang Kami</a>
     </div>
     <div class="navLog flex font-roboto font-[900] text-[12px]">
@@ -32,7 +26,3 @@
         </a>
     </div>
 </div>
-
-{# End Navbar #}
-
-{% endblock %}
